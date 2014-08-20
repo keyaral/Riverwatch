@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "Home" %}{% endblock %}
+{% block title %}{% trans "Home" %}{% endblock %}
+
+{% block main %}
+{% blocktrans %}
+<head>
+
+
+      <style>
+        #wrapper { position: relative; }
+        #map_controls { position: absolute; width: 100px; left: 5px; top: 5px;}
+      
+      
+        #map_canvas{
+          display: block;
+          height: 500px;
+        }
+        #map_canvas img{
+          max-width: none;
+        }
+        
+      /* body {
+  padding-top: 50px;
+}*/
+      </style>
+
+</div>
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+<!-- Carousel
+    ================================================== -->
+    
+    <!--<div id="myCarousel" class="carousel slide" >
+    
+      <div class="carousel-inner" >
+        <div class="item active">
+          <img src="{{ STATIC_URL }}images/TomasSobek.jpg" class="img-responsive" alt="First slide">-->
+          
+          <div class="jumbotron" style="background-image:url('{{ STATIC_URL }}images/TomasSobek.jpg'); background-repeat:no-repeat; background-size:100% 100%;">
+          
+            
+           
+              <img style="margin-left:auto;margin-right:auto" src="{{ STATIC_URL }}images/reduced_logo.png" id="logo" class="img-responsive">
+             
+              <div class="container" style="" >
+              <!-- <h1 style="color:white;">What we do?</h1>-->
+              
+              <!-- <p><a class="btn btn-large btn-primary" href="#">Sign up today</a></p> -->
+           
+    </div>
+    </div>
+    <!-- /.carousel -->
+    <div class="container marketing">
+  <div class="jumbotron">
+  <h1 >What we do?</h1>
+<div style="" class="lead">WaiNZ is a national grassroots organisation that aims to reduce freshwater pollution by using technology to empower the public to be kaitiaki (the guardians) of our waterways. We are tackling freshwater issues by giving the public the power to record and report on pollution or enhancement of freshwater from anywhere in the country. In collaboration with Victoria University we continue to research and develop cutting edge technology for the monitoring of freshwater resources.
+</div>
+<a href="/accounts/register/" ><button class="btn btn-success btn-md" style="background-color:rgb(95, 159, 159);border-color:teal">Sign up today!</button></a>
+</div>
+
+        <div class="row featurette">
+
+	   <div class="col-md-5">
+          <a href="map/"><h2 class="featurette-heading">View Maps</h2></a>
+          <p class="lead"> Users can view information on the good, the bad and the ugly freshwater managment in your area using a Map. Users can view where all photos are coming from using the power of GPS!</p>
+        </div>
+        <div class="col-md-7" style="padding-top:10%">
+              <!-- <div id="wrapper">
+    <div id="map_canvas"></div>
+  <div class "dropdown" id="map_controls">
+  <button id="rivers" name="rivers" value="Toggle Waterways" type="button" class="btn btn-info btn-xs" style="width:127px;">Toggle Waterways</button>
+ <div class="input-group" >
+      
+      <input type="text" class="form-control" value="" onkeydown="if (event.keyCode == 13) { codeAddress(); return false};" id="address"  placeholder="Find Location" style="width:104px;padding-left:4px;padding-right:0px;border-color: #357ebd; height:22px;padding-top:0px;padding-bottom:0px;">
+      <span class="input-group-btn">
+        <button class="btn btn-primary btn-xs" type="submit" id="search" style="padding-left:3px;padding-right:3px;" value="Go">Go</button>
+      </span>
+    </div>
+    
+  <div class="btn-group">
+  <button type="button" class="btn btn-success dropdown-toggle btn-xs" data-toggle="dropdown" style="width:127px;">
+    Select Region <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" id="region"  role="menu">
+    <li><a href="#" id ="None">Hide All</a></li>
+    <li class="divider"></li>
+    <li><a  href="#" id="Northland">Northland</a></li>
+    <li><a href="#" id="Auckland">Auckland</a></li>
+    <li><a href="#" id="Waikato">Waikato</a></li>
+    <li><a href="#" id="West Coast">West Coast</a></li>
+    <li><a href="#" id="Bay of Plenty">Bay of Plenty</a></li>
+    <li><a href="#" id="Canterbury">Canterbury</a></li>
+    <li><a href="#" id="Gisborne">Gisborne</a></li>
+    <li><a href="#" id="Otago">Otago</a></li>
+    <li><a href="#" id="Southland">Southland</a></li>
+    <li><a href="#" id="Hawkes Bay">Hawkes Bay</a></li>
+    <li><a href="#" id="Tasman">Tasman</a></li>
+    <li><a href="#" id="Taranaki">Taranaki</a></li>
+    <li><a href="#" id="Manawatu-Wanganui">Manawatu-Whanganui</a></li>
+    <li><a href="#" id="Nelson">Nelson</a></li>
+    <li><a href="#" id="Wellington">Wellington</a></li>
+    <li><a href="#" id="Malborough">Malborough</a></li>
+    <li class="divider"></li>
+    <li><a href="#" id="All">Show All</a></li>
+  </ul>
+</div>
+</div>
+
+  </div> -->
+<a href="/map/"><img src="{{ STATIC_URL }}images/mapLink.png"  class="img-responsive" style="height:auto;width:100%;"></a>
+
+
+
+      
+        </div>
+
+      </div>
+
+
+
+
+
+      <div class="row featurette">
+
+        <div class="col-md-5" style="padding-top: 10%">
+        <center>
+          <img class="featurette-image img-responsive" src="{{ STATIC_URL }}images/camera.jpg">
+        </center>
+        </div>
+        <div class="col-md-7">
+          <a href="submit/"><h2 class="featurette-heading">Submit Photos</h2></a>
+          <p class="lead">Users can submit photos on the good the bad and the ugly freshwater management in your area or places you travel. To upload a photo click 'Submit' at the top of the page. You can view other photos on the map to see what is going on around NZ. All submissions are vetted before being made public. We have also created easy to use mobile Apps to instantly submit your photos.</p>
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">The Inspiration</h2>
+          <p class="lead">WAI NZ was formed in 2012 when people from all over NZ became inspired to collaborate in efforts to monitor and report on freshwater pollution.
+
+          The inspiration came from watching the documentary film River Dog (multi award winning NZ doco), a story of one man's struggle to save the river he lives by. You can view the trailer to River Dog here. </p>
+        </div>
+        <div class="col-md-5">
+          <div style="padding-top:20%">
+          <iframe src="//player.vimeo.com/video/16829706" width="100%"  height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+         </div>
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+
+      <!-- /END THE FEATURETTES -->
+       <!-- Three columns of text below the carousel -->
+      
+<div class="row">
+        <div id="header" style="padding-bottom: 30px;">
+          <p> <h1> Mobile Applications for Download </h1> <p></p>
+        </div>
+
+
+
+
+
+
+        <div class="col-lg-4">
+          <img width="140" height="140" alt="Android" src="/static/images/android_robot.png">
+          <h2>Android</h2>
+
+          <p><a class="btn btn-default" href="https://play.google.com/store/apps/details?id=nz.co.android.cowseye2">Download »</a></p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+          <img width="140" height="140" src="/static/images/apple_logo.gif">
+          <h2>iPhone</h2>
+
+          <p><a class="btn btn-default" href="https://itunes.apple.com/nz/app/riverwatch/id674422713">Download »</a></p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+          <img width="140" height="140" alt="Windows" src="/static/images/windowslogo.jpeg">
+          <h2>Windows</h2>
+
+          <p><a class="btn btn-default" >In Development</a></p>
+        </div><!-- /.col-lg-4 -->
+      </div>
+{% endblocktrans %}
+{% endblock %}
+
+{%block page_specific_javascript %}
+  
+  
+  <!--<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAwwi-pYumS3O9OxbscA3pbDb_MPuWA6Eo&libraries=geometry&sensor=false"></script>
+ <!-- <script type="text/javascript" src="{{ STATIC_URL }}js/map-final-test.js"></script> 
+  <script type="text/javascript" src="{{ STATIC_URL }}js/map-coords.min.js"></script>  
+   <script type="text/javascript" src="{{ STATIC_URL }}js/maplabel-compiled.js"></script>
+  <script type="text/javascript">
+    
+    var points = {% autoescape off %} {{latLngs}}{% endautoescape %} 
+    var markers = [];
+    
+  </script>
+    <script>
+ $( "#region" ).click(function(event){
+    event.preventDefault();
+    var regionName = event.target.id;
+   regionDropdown(regionName);
+
+ });
+
+ $("#map_controls").on('click','#rivers', function(event){
+ event.preventDefault();
+   displayRivers();
+   
+ });
+  $("#search").click(function(event){
+  event.preventDefault();
+   codeAddress();
+
+ });
+</script> -->
+  
+
+
+
+{% endblock %}

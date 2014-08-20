@@ -1,0 +1,75 @@
+{% load i18n future pages_tags %}
+{% load riverwatch_tags %}
+{% spaceless %}
+{% num_unapproved as num %}
+				
+<ul class="nav navbar-nav navbar-right">
+
+	{% for navpage in page_branch %}
+		<!-- this is where the links should be looped -->
+	  {% if navpage.has_children %}
+	  
+	      <li class="dropdown"><a href="#" class="dropdown-toggle"
+		      data-toggle="dropdown" style="color: white;"> {{ navpage.title }} <b
+			      class="caret" style="border-top-color: #ffffff;border-bottom-color: #ffffff;"></b></a>
+		      <ul class="dropdown-menu">
+			      {% for childpage in navpage.children.all %}
+				      <li><a href="{{ childpage.get_absolute_url }}">{{ childpage.title }}</a></li>
+			      {% endfor %}
+			      
+		      </ul>
+	      </li>
+	  {% elif navpage.in_menu %}
+	      <li><a href="{{ navpage.get_absolute_url }}" style="color:white;">{{ navpage.title }}</a></li>
+	  {% endif %}
+
+		
+		
+    {% endfor %}
+    <li class="dropdown"><a href="#" class="dropdown-toggle"
+		      data-toggle="dropdown" style="color: white;">App<b
+			      class="caret" style="border-top-color: #ffffff;border-bottom-color: #ffffff;"></b></a>
+		      <ul class="dropdown-menu">
+    
+  <li><a href="https://play.google.com/store/apps/details?id=nz.co.android.cowseye2">
+  <img  alt="Android app on Google Play"
+       src="https://developer.android.com/images/brand/en_app_rgb_wo_45.png" /></a>
+       </li>
+       <li><a href="https://itunes.apple.com/nz/app/riverwatch/id674422713?mt=8&amp;uo=4">
+       <img  alt="Android app on Google Play"
+       src="https://linkmaker.itunes.apple.com/htmlResources/assets/en_us//images/web/linkmaker/badge_appstore-lrg.png" /></a>
+       </li>
+</ul>
+    {% if user.is_authenticated %}
+    <li class="dropdown"><a href="#" class="dropdown-toggle"
+		      data-toggle="dropdown" style="color: white;">{{ user.username }}
+	{% if request.user.is_staff %}
+	<span class="badge badge-info">{{ num }}</span>
+	{% endif %}
+	<b class="caret" style="border-top-color: #ffffff;border-bottom-color: #ffffff;"></b></a>
+		<ul class="dropdown-menu">
+			<li><a href="/accounts/profile">My Profile</a></li>
+			<li><a href="{% url 'auth_password_change' %}">Change Password</a></li>
+			{% if request.user.is_staff %}
+			<li><a href="/admin">Admin</a></li>
+			<li><a href="/approve">Image Approval <span class="badge badge-info">{{num}}</span></a></li>
+			<li><a href="https://developers.facebook.com/tools/comments" target="_blank">Comment Moderation</a></li>
+			{% endif %}
+			<li><a href="{% url 'auth_logout' %}?next={{request.path}}">Logout</a></li>
+		</ul>
+    </li>
+    {% else %}
+<li class="dropdown"><a href="#" class="dropdown-toggle"
+		      data-toggle="dropdown" style="color: white;">Login<b
+			      class="caret" style="border-top-color: #ffffff;border-bottom-color: #ffffff;"></b></a>
+		      <ul class="dropdown-menu">
+    <li><a href="{% url 'auth_login' %}?next={{request.path}}">Login</a></li>
+  <li><a href="/accounts/register">Register</a></li>
+  
+</ul>
+    {% endif %}
+    
+</ul>
+
+       
+{% endspaceless %}

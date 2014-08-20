@@ -1,0 +1,327 @@
+{% extends "base.html" %}
+{% load mezzanine_tags %}
+{% block meta_title %}Map{% endblock %}
+{% if user.is_staff %}
+<script src="{{ STATIC_URL }}mezzanine/js/jquery-1.7.1.min.js">
+  jQuery.noConflict();
+</script>
+{% endif %}
+
+
+
+{% block main %}
+<head>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/datepicker.css" >
+<style>
+.pace {
+  -webkit-pointer-events: none;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.pace-inactive {
+  display: none;
+}
+
+.pace .pace-progress {
+  background: #54ec13;
+  position: fixed;
+  z-index: 2000;
+  top: 50px;
+  left: 0;
+  height: 2px;
+
+  -webkit-transition: width 1s;
+  -moz-transition: width 1s;
+  -o-transition: width 1s;
+  transition: width 1s;
+}
+
+.pace .pace-progress-inner {
+  display: block;
+  position: absolute;
+  right: 0px;
+  width: 100px;
+  height: 100%;
+  box-shadow: 0 0 10px #54ec13, 0 0 5px #54ec13;
+  opacity: 1.0;
+  /*-webkit-transform: rotate(3deg) translate(0px, -4px);
+  -moz-transform: rotate(3deg) translate(0px, -4px);
+  -ms-transform: rotate(3deg) translate(0px, -4px);
+  -o-transform: rotate(3deg) translate(0px, -4px);
+  transform: rotate(3deg) translate(0px, -4px);*/
+}
+
+.pace .pace-activity {
+  display: block;
+  position: fixed;
+  z-index: 2000;
+  top: 75px;
+  right: 15px;
+  width: 14px;
+  height: 14px;
+  border: solid 2px transparent;
+  border-top-color: #54ec13;
+  border-left-color: #54ec13;
+  border-radius: 10px;
+  -webkit-animation: pace-spinner 400ms linear infinite;
+  -moz-animation: pace-spinner 400ms linear infinite;
+  -ms-animation: pace-spinner 400ms linear infinite;
+  -o-animation: pace-spinner 400ms linear infinite;
+  animation: pace-spinner 400ms linear infinite;
+}
+
+@-webkit-keyframes pace-spinner {
+  0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@-moz-keyframes pace-spinner {
+  0% { -moz-transform: rotate(0deg); transform: rotate(0deg); }
+  100% { -moz-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@-o-keyframes pace-spinner {
+  0% { -o-transform: rotate(0deg); transform: rotate(0deg); }
+  100% { -o-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@-ms-keyframes pace-spinner {
+  0% { -ms-transform: rotate(0deg); transform: rotate(0deg); }
+  100% { -ms-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@keyframes pace-spinner {
+  0% { transform: rotate(0deg); transform: rotate(0deg); }
+  100% { transform: rotate(360deg); transform: rotate(360deg); }
+}
+#sidebar {
+    float:left;
+    height:auto;
+    position:50%;
+    margin-top: 5px;
+    
+    border-color: teal;
+    overflow:hidden;
+    display:none;
+    
+}
+.well{padding:5px; margin-bottom: 5px}
+
+  #wrapper { position: relative; }
+  #map_controls { position: absolute; width: 100px; left: 5px; top: 5px;}
+
+  #map_canvas{
+    display: block;
+    /*height: 1500px;*/
+  }
+  #map_canvas img{
+    max-width: none;
+  }
+  
+  body {
+    padding-top: 50px;
+    background-color:#ffffff;
+    padding-bottom: 0px;
+  }
+  .starter-template {
+    padding: 40px 15px;
+    text-align: center;
+  }
+  img {
+    /* Responsive images (ensure images don't scale beyond their parents) */
+    max-width: 160px;
+    /* Part 1: Set a maxium relative to the parent */
+    width: auto\9;
+    /* IE7-8 need help adjusting responsive images */
+    height: auto;
+    /* Part 2: Scale the height according to the width, otherwise you get stretching */
+    vertical-align: middle;
+
+    border: 0;
+  }
+  .centered {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+
+
+
+</style>
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+
+
+<div id="wrapper">
+
+  <div id="map_canvas"></div>
+  <div class="dropdown" id="map_controls">
+    <button id="rivers" name="rivers" value="Toggle Waterways" type="button" class="btn btn-info btn-xs" style="width:127px;">Toggle Waterways</button>
+    
+    <!--<button type="button" id="filter" class="btn btn-warning btn-xs"style="width:127px;">
+      Filters
+    </button>-->
+    <div class="input-group" >
+
+      <input type="text" class="form-control" value="" onkeydown="if (event.keyCode == 13) { codeAddress(); return false};" id="address"  placeholder="Find Location" style="width:103px;padding-left:4px;padding-right:0px;border-color: #357ebd;height:22px;padding-top:0px;padding-bottom:0px;">
+      <span class="input-group-btn">
+        <button class="btn btn-primary btn-xs" type="submit" id="search" style="padding-left:3px;padding-right:3px;" value="Go">Go</button>
+      </span>
+    </div><!-- /input-group -->
+<div class="btn-group">
+      <button type="button" class="btn btn-success dropdown-toggle btn-xs" data-toggle="dropdown" style="width:127px;">
+        Show Region <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" id="region" href="#" role="menu">
+        <li><a href="#" id ="None">Hide All</a></li>
+        <li class="divider"></li>
+
+        <li><a  href="#" id="Northland">Northland</a></li>
+        <li><a href="#" id="Auckland">Auckland</a></li>
+        <li><a href="#" id="Waikato">Waikato</a></li>
+        <li><a href="#" id="West Coast">West Coast</a></li>
+        <li><a href="#" id="Bay of Plenty">Bay of Plenty</a></li>
+        <li><a href="#" id="Canterbury">Canterbury</a></li>
+        <li><a href="#" id="Gisborne">Gisborne</a></li>
+        <li><a href="#" id="Otago">Otago</a></li>
+        <li><a href="#" id="Southland">Southland</a></li>
+        <li><a href="#" id="Hawkes Bay">Hawkes Bay</a></li>
+        <li><a href="#" id="Tasman">Tasman</a></li>
+        <li><a href="#" id="Taranaki">Taranaki</a></li>
+        <li><a href="#" id="Manawatu-Wanganui">Manawatu-Whanganui</a></li>
+        <li><a href="#" id="Nelson">Nelson</a></li>
+        <li><a href="#" id="Wellington">Wellington</a></li>
+        <li><a href="#" id="Malborough">Malborough</a></li>
+        <li class="divider"></li>
+        <li><a href="#" id="All">Show All</a></li>
+      </ul>
+    </div>
+<button id="filter" type="button" class="btn btn-danger  btn-xs" style="width:127px; background-color:rgb(95, 159, 159);border-color:teal">Filters</button>
+    <div id="sidebar"  style="background-color:transparent;border-color:transparent">
+
+      
+      <div class="well" >
+      <div>
+            <label class="checkbox" style="font-weight: bold; ">
+                <input type="checkbox" id="date_filter" name="date_filter" />Date-time filter
+            </label>
+            <label>From:</label>
+            <input type="text" class="datepicker label2" value="" placeholder="dd/mm/yyyy" data-date-format="dd/mm/yyyy" id="from" />
+</div><div>
+            <label>To:</label>
+            <input type="text" class="datepicker label2" value="" placeholder="dd/mm/yyyy" data-date-format="dd/mm/yyyy" id="to" />
+            </div>
+            </div>
+            <div class="well">
+        <label class="checkbox" style="font-weight: bold; ">
+            <input type="checkbox" id="tag_filter" name="tag_filter">Tag filter
+        </label>
+        
+        
+        <div id='tag-container'></div>
+        <input type='text' id='add_tag_text' class="form-control" style="margin-top:10px" />
+            <button id="add_tag_filter" class="btn btn-xs">Add tag</button>
+            <span >Match:</span>
+            <select style='margin-top:10px;width:50%' id='tag_type'>
+                <option value='all'>All</option><option value='one'>At least one</option>
+            </select>
+            </div>
+            <div class="well">
+            <label class="checkbox" style="font-weight: bold; ">
+                <input type="checkbox" id="geo_filter" name="geo_filter" />Location filter
+            </label>
+            <div id="geofilters">
+                <button id="add_geo_filter" class="btn btn-warning btn-xs" type="button">Add geofilter</button>
+                
+            </div>
+            </div>
+            <div class="btn-group btn-group-justified">
+            <a id="search_submit" type="submit" class="btn btn-success btn-xs" style="width:100%; margin-bottom:5px;" value="Search">Apply Filters</a>
+            <a id="reset_filter" class="btn btn-danger btn-xs" style="width:100%;">Reset</a>></div>
+        </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+
+{% endblock %}
+{% block page_specific_javascript %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/pace.min.js"></script>
+<!--<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui.js"></script>-->
+<script  type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-datepicker.js"></script>
+<script  type="text/javascript" src="{{ STATIC_URL }}js/map-coords.min.js"></script>
+<script  src="//maps.googleapis.com/maps/api/js?key=AIzaSyAwwi-pYumS3O9OxbscA3pbDb_MPuWA6Eo&libraries=geometry&sensor=false"></script>
+<script   type="text/javascript" src="{{ STATIC_URL }}js/map-final-test.js"></script>
+<script  type="text/javascript" src="{{ STATIC_URL }}js/maplabel-compiled.js">console.log("Hi");</script>
+
+<script>
+$("#filter").click(function(event){
+    toggle_sidebar();
+    
+    
+});
+
+function toggle_sidebar(){
+    
+    $('#sidebar').toggle('slide',  500);
+}
+
+ $( "#region" ).click(function(event){
+  event.preventDefault();  
+  var regionName = event.target.id;
+  regionDropdown(regionName);
+
+});
+
+ $("#search").click(function(event){
+  event.preventDefault();
+  codeAddress();
+
+});
+ $("#map_controls").on('click','#rivers', function(event){
+   event.preventDefault();
+   displayRivers();
+   
+ });
+</script>
+<script type="text/javascript">
+  {% autoescape off %} 
+  var points = {{latLngs}}
+  var tagTypeaheadSource = [
+  {% for tag in all_tags %}
+  "{{tag.tag_text}}", 
+  {% endfor %}]
+  {% if user.is_staff %}
+  var unapproved = {{unapproved}}
+  {% endif %}
+  var markers = []
+
+
+
+    
+
+  {% endautoescape %} 
+</script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/map_filters.js"></script>
+<script>
+  var height = $(window).height()-50;
+  $("#map_canvas").height(height);
+
+  $(window).resize(function() {
+    var height = $(window).height()-50;
+    $("#map_canvas").height(height);
+  });
+
+</script>
+
+
+{% endblock %}
+<footer></footer>
+
+{% editable_loader %}
+
+
+{% block footer %}{% endblock %}

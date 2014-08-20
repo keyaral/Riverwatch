@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block meta_title %}Registration{% endblock %}
+{% block main %}
+
+<style>ul
+  {
+    list-style-type: none;
+
+  }
+  li{
+    list-style-type: none;
+    }
+  body{
+    padding-bottom: 5px;
+  }
+  .alert{
+    padding:2px;
+    }
+  </style>
+  <div class="container" style="padding-left:10%;padding-right:10%">
+    <h2 class='page-header'>Register</h2>
+<!--<form method="post" action=".">
+  
+  {{ form.as_p }}
+-->
+
+<form action="." method="post" >
+  {% csrf_token %}
+
+  {% for field in form %}
+  <div class="fieldWrapper" style="padding-bottom:10px;width:100%;">
+
+    <label for="#id_{{ field.html_name }}">{{ field.label_tag }}</label>
+
+    {{ field }}
+
+    <script>$("#id_{{ field.html_name }}").addClass('form-control');</script>
+    {{ field.errors }}
+  </div>
+  <script>$('.errorlist').removeClass('errorlist').addClass('alert alert-danger');
+    </script>
+
+    {% endfor %}
+    <input class='btn btn-md btn-primary' type="submit" value="{% trans 'Submit' %}" />
+    
+  </form>
+</div>
+
+  {% endblock %}

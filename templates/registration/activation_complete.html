@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block meta_title %}Registration{% endblock %}
+{% block main %}
+<div class="container" style="padding-left:10%;padding-right:10%">
+<h2 class='page-header'>Registration</h2>
+<p>{% trans "Your account is now activated." %}</p>
+<p>You can now <a href="{% url 'auth_login' %}?next=/accounts/profile">{% trans "Log in" %}</a></p>
+</div>
+{% endblock %}

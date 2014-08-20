@@ -1,0 +1,13 @@
+{% load i18n %}
+Welcome to WAI NZ!
+
+Your account for WAI NZ is nearly ready to use.
+
+To complete the signup process please click on the link below or copy it into your browser:
+
+https://{{ site.domain }}{% url 'registration_activate' activation_key %}
+
+This link is valid for {{ expiration_days }} days.
+
+Regards,
+WAI NZ

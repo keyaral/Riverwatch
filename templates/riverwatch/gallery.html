@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block meta_title %}Gallery{% endblock %}
+{% block main %}
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+<link rel="stylesheet" href="{{ STATIC_URL }}galleria/themes/twelve/galleria.twelve.css">
+<head>
+<style>
+body{
+  padding-bottom:0px;
+  padding-top:50px;
+  width: 100%;
+  height: 100%;
+}
+#galleria{
+width: 100%;
+height: 100%;
+}
+</style>
+
+
+</head>
+
+
+<script src="{{ STATIC_URL }}galleria/galleria-1.3.3.min.js"></script>
+
+<div id="galleria" >      
+   {% for img in images %}
+   <a href="{{ STATIC_URL }}uploaded-images/{{img.image_path}}.{{img.extension}}"><img src="{{ STATIC_URL }}uploaded-images/{{img.image_path}}-thumb.{{img.extension}}" data-title="{{img.submitter}}: {{img.image_name}}" data-link="/image/{{img.id}}" data-description="{{img.image_description}}"></a>
+   {% endfor %}
+ </div>
+
+
+<script>
+
+  var height = $(window).height()-50;
+  
+  $("#galleria").height(height);
+  
+
+  Galleria.loadTheme('{{ STATIC_URL }}galleria/themes/twelve/galleria.twelve.js');
+  Galleria.configure({
+
+  });
+  Galleria.run('#galleria',{
+    responsive: true,
+    
+    preload:0,
+    
+
+  });
+  
+</script>
+{% block javascriptincludes %}
+
+
+
+{% endblock %}
+{% endblock %}

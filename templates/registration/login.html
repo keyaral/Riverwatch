@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block meta_title %}Login{% endblock %}
+{% block main %}
+<style>ul
+  {
+    list-style-type: none;
+
+  }
+  li{
+    list-style-type: none;
+    }
+  body{
+    padding-bottom: 5px;
+  }
+  .alert{padding:2px;}</style>
+<div class="container" style="padding-left:10%;padding-right:10%">
+<h2 class='page-header'>Login</h2>
+<form method="post" action=".">
+  {% csrf_token %} 
+  {% for field in form %}
+  <div class="fieldWrapper" style="padding-bottom:10px;width:100%;">
+
+    <label for="#id_{{ field.html_name }}">{{ field.label_tag }}</label>
+
+    {{ field }}
+
+    <script>$("#id_{{ field.html_name }}").addClass('form-control');</script>
+    {{ field.errors }}
+  </div>
+  <script>$('.errorlist').removeClass('errorlist').addClass('alert alert-danger ');
+    </script>
+
+    {% endfor %}
+    <input class='btn btn-md btn-primary' type="submit" value="{% trans 'Submit' %}" />
+    <input type="hidden" name="next" value="/accounts/profile" />
+  </form>
+<p></p>
+<p>{% trans "Forgot password" %}? <a href="{% url 'auth_password_reset' %}">{% trans "Reset it" %}</a>!</p>
+<p>{% trans "Not member" %}? <a href="{% url 'registration_register' %}">{% trans "Register" %}</a>!</p>
+</div>
+{% endblock %}
