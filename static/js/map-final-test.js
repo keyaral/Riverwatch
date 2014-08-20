@@ -545,7 +545,7 @@ function initialize() {
     var mapOptions = {
         zIndex: -1,
         center : new google.maps.LatLng(-41, 172),
-        zoom : 5,
+        zoom : 10,
         mapTypeId : google.maps.MapTypeId.ROADMAP,//TERRAIN, //ROADMAP SATELLITE
         panControl : false,
         streetViewControl : false,
