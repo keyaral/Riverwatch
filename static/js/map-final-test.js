@@ -222,7 +222,7 @@ function displayRivers() {
     if (riverLayer.getMap() == null && lakeLayer.getMap() == null) {
         riverLayer.setMap(map);
         lakeLayer.setMap(map);
-        if(map.getZoom()>10){
+        if(map.getZoom()>6){
             streamLayer.setMap(map);
         }
         layerOn = true;
